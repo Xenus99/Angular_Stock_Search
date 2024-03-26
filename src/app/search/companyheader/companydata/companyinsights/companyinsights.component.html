@@ -1,0 +1,51 @@
+<h2>Insider Sentiments</h2>
+
+<div class="d-flex justify-content-center">
+    <div class="col-sm-6">
+        <table class="table">
+            
+            <tbody>
+            <tr>
+                <th scope="row">Apple Inc.{{ companyInsider.symbol }}</th>
+                <th scope="row">MSPR</th>
+                <th scope="row">Change</th>
+                
+
+            </tr>
+            <tr>
+                <th scope="row">Total</th>
+                <td>{{ companyInsider.totalMSPR }}</td>
+                <td>{{ companyInsider.totalChange }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Positive</th>
+                <td>{{ companyInsider.positiveMSPR }}</td>
+                <td>{{ companyInsider.positiveChange }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Negative</th>
+                <td>{{ companyInsider.negativeMSPR }}</td>
+                <td>{{ companyInsider.negativeChange }}</td>
+            </tr>
+
+ 
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<div class="d-flex justify-content-center">
+    <div class="col-6 m-1">
+        <highcharts-chart [constructorType]="chartConstructor" [Highcharts]="Highcharts" [options]="chartOptionsRec" style="width: 100%; display: block;">
+        </highcharts-chart>
+
+    </div>
+    <div class="col-6 m-1">
+
+        <highcharts-chart [constructorType]="chartConstructor" [Highcharts]="Highcharts" [options]="chartOptionsEPS" style="width: 100%; display: block;">
+        </highcharts-chart>
+
+    </div>
+</div>

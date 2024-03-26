@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-sm-6">
+        <div class="row my-4">
+            <div class="col-sm-7">
+                <small>
+                <b>High Price: </b>{{ companyQuote.h.toFixed(2) }}<br>
+                <b>Low Price: </b>{{ companyQuote.l.toFixed(2) }}<br>
+                <b>Open Price: </b>{{ companyQuote.o.toFixed(2) }}<br>
+                <b>Prev Close: </b>{{ companyQuote.pc.toFixed(2) }}<br>
+                </small>
+            </div>
+
+            <!-- <div class="col-sm-5"></div> -->
+        </div>
+
+        <div class="my-1">
+            <h6 class="fs-6 mb-3"><b><u>About the company</u></b></h6>
+            
+            <small>
+            <b>IPO start date: </b>{{ companySummary.ipo }}
+            <br>
+            <b>Industry: </b>{{ companySummary.finnhubIndustry }}
+            <br>
+            <b>Webpage: </b><a [href]="companySummary.weburl" target="_blank">{{ companySummary.weburl }}</a>
+            <br>
+            <b>Company Peers:</b>
+            <br>
+            <div style="display: inline-block" *ngFor="let peer of companyPeers"><a [routerLink]="['/search', peer]" (click)="onPeerClick(peer)">{{ peer }}</a>-</div>
+            </small>
+
+        </div>
+    </div>
+
+    <div class="col-sm-6" id="summaryChart">
+    
+        <highcharts-chart [constructorType]="chartConstructor" [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height: 100%; display: block;">
+        </highcharts-chart>
+        
+    </div>
+</div>

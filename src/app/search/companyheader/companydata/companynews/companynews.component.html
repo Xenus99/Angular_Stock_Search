@@ -1,0 +1,47 @@
+
+<br>
+
+<div class="row">
+
+
+    <div class="col-6" *ngFor="let news of filteredNews">
+        <a >
+            <div class="card mb-3 h-75" (click)="openNewsModal(news)">
+                <div class="row g-0">
+
+                    <div class="col-4 p-3">
+                        <img [src]="news.image" class="img-fluid rounded" alt="..." height="40%">
+                    </div>
+
+                    <div class="col-8">
+                        <div class="card-body">
+                        <!-- <h5 class="card-title">{{ news.headline }}</h5> -->
+                        <small><p class="card-text">{{ news.headline }}</p></small>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <!-- <div class="col-6" *ngFor="let news of companyNews2">
+        <a href="">
+            <div class="card mb-3 h-75" >
+                <div class="row g-0">
+                    <div class="col-4 p-3">
+                        <img [src]="news.image" class="img-fluid rounded" alt="...">
+                    </div>
+                <div class="col-8">
+                    <div class="card-body">
+                    <h5 class="card-title">{{ news.headline }}</h5>
+                    <small><p class="card-text">{{ news.headline }}</p></small>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </a>
+    </div> -->
+</div>
+

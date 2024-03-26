@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h4 class="modal-title">AAPL</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <p>Current Price: {{ currentPrice }}</p>
+    <p>Money in Wallet: ${{ wallet }}</p>
+    Quantity: <input type="number" min="1" [max]="totalBuyable" [(ngModel)]="quantity" (keyup)="onKeyup($event)" (change)="onKeyup($event)"/> 
+    <p class="text-danger" *ngIf="totalBuy > wallet">Not enough money in wallet!</p>
+</div>
+<div class="modal-footer">
+    Total: $ {{ totalBuy }}
+    <button type="button" class="btn btn-success" (click)="buyStock()" [disabled]="notBuyable">Buy</button>
+    <!-- <button type="button" class="btn btn-success" (click)="modal.dismiss('cancel click')">Buy</button> -->
+</div>
