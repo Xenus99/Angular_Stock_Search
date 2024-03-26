@@ -2,19 +2,19 @@
     <div class="fs-2">
         <p>STOCK SEARCH</p>
     </div>
-    
+
     <div class="container mb-3">
         <form class="d-flex justify-content-center">
             <div class="col-sm-4">
                 <div class="input-group border border-primary border-4 rounded-5">
-                    <input type="text" class="form-control border-0 bg-transparent shadow-none fs-6" placeholder="Enter Stock Ticker Symbol" id="search" [(ngModel)]="tickerQuery" autocomplete="off" placeholder="Enter Stock Ticker Symbol" name="search" matInput [formControl]="myControl" [matAutocomplete]="auto" (keyup)="onEnteredKey()">
+                    <input type="text" class="form-control border-0 bg-transparent shadow-none fs-6" placeholder="Enter Stock Ticker Symbol" id="search" autocomplete="off" [(ngModel)]="tickerQuery" placeholder="Enter Stock Ticker Symbol" name="search" matInput [formControl]="myControl" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option  *ngIf="autoCompleteLoading"><mat-spinner diameter="30"></mat-spinner></mat-option>
-                            <mat-option *ngFor="let option of options" [value]="option.symbol"><a class="text-black text-decoration-none" [routerLink]="['/', 'search', option.symbol]">{{option.symbol}} | {{option.description}}</a></mat-option>
+                            <mat-option  *ngFor="let option of options" [value]="option.symbol"><a class="text-black text-decoration-none" [routerLink]="['/', 'search', option.symbol]">{{option.symbol}} | {{option.description}}</a></mat-option>
                         </mat-autocomplete>
                     <button class="btn bg-transparent" [routerLink]="['/search', tickerQuery]" (click)="onSubmit()"><i class="bi bi-search" style="color:#2824ac"></i></button>
                     <button type="reset" class="btn btn-transparent"><i class="bi bi-x-lg" style="color:#18148d" (click)="onClear()"></i></button>
-                    
+
                 </div>
             </div>
         </form>

@@ -4,11 +4,10 @@ import { GlobalVarsService } from '../global-vars.service';
 import { MongoDbService } from '../mongo-db.service'
 import { ApiServiceService } from '../api-service.service';
 import { CompanyheaderComponent  } from './companyheader/companyheader.component';
-import { RouterModule } from  '@angular/router'; 
+import { RouterModule } from  '@angular/router';
 import { Subscriber, forkJoin } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import {FormCo}
-
+import {FormControl } from "@angular/forms";
 
 
 @Component({
@@ -19,6 +18,7 @@ import {FormCo}
 
 export class SearchComponent implements OnInit {
 
+  myControl = new FormControl();
   tickerQuery: string;
   companyStock: any;
   companyQuote: any;
@@ -41,10 +41,10 @@ export class SearchComponent implements OnInit {
      private apiService: ApiServiceService,
      private mongoDbService: MongoDbService,
      private route: ActivatedRoute,
-     private router: Router  
+     private router: Router
      ) {
     // console.log(this.tickerQuery);
-    
+
   }
 
 
@@ -56,6 +56,13 @@ export class SearchComponent implements OnInit {
     else{
       this.tickerQuery = "";
     }
+    this.myControl.valueChanges.subscribe(value => {
+      if (value) {
+        this.tickerQuery = value;
+        this.onEnteredKey();
+      }
+
+    });
 
   }
 
@@ -66,18 +73,18 @@ export class SearchComponent implements OnInit {
     let a =[]
 
     // this.globalVars.getTickerMessage.subscribe(msg => this.tickerQuery = msg);
-    
+
     // this.tickerQuery = this.route.snapshot.params['ticker'];
-    
+
     // Get Stock Data
     let b= this.apiService.getStockData(this.tickerQuery).toPromise().then(data=>{
-      
+
       this.companyStock = data;
       this.globalVars.setStockData(this.companyStock);
     });
     a.push(b);
 
-    
+
 
     // Get Quote Data
     b=this.apiService.getQuoteData(this.tickerQuery).toPromise().then(data=>{
@@ -86,11 +93,11 @@ export class SearchComponent implements OnInit {
       this.globalVars.setQuoteData(this.companyQuote);
 
 
-      
+
     });
     a.push(b);
 
-    
+
     // Get Charts Data
     b=this.apiService.getChartsData(this.tickerQuery).toPromise().then(data=>{
       this.companyCharts = data;
@@ -108,7 +115,7 @@ export class SearchComponent implements OnInit {
     });
     a.push(b);
 
-   
+
 
     // Get Search Data
     b = this.apiService.getSearchData(this.tickerQuery).toPromise().then(data=>{
@@ -120,8 +127,8 @@ export class SearchComponent implements OnInit {
 
     });
     a.push(b);
-    
-  
+
+
 
     // Get News Data
     b=this.apiService.getNewsData(this.tickerQuery).toPromise().then(data=>{
@@ -131,8 +138,8 @@ export class SearchComponent implements OnInit {
     });
     a.push(b);
 
-  
-  
+
+
     // Get Recommendation Data
     b=this.apiService.getRecommendationData(this.tickerQuery).toPromise().then(data=>{
       // console.warn();
@@ -149,7 +156,7 @@ export class SearchComponent implements OnInit {
       this.globalVars.setInsiderData(this.companyInsider);
     });
     a.push(b);
-    
+
 
 
     // Get Peers Data
@@ -160,7 +167,7 @@ export class SearchComponent implements OnInit {
 
     });
     a.push(b);
-   
+
 
     // Get Earnings Data
     b=this.apiService.getEarningsData(this.tickerQuery).toPromise().then(data=>{
@@ -169,7 +176,7 @@ export class SearchComponent implements OnInit {
       this.globalVars.setEarningsData(this.companyEarnings);
     });
     a.push(b);
-    
+
     b= this.mongoDbService.getPortfoliolist().toPromise().then(data =>{
       let wallet: any = data;
       wallet = wallet.filter(x => x.wallet)
@@ -198,7 +205,7 @@ export class SearchComponent implements OnInit {
       this.tickerFound = true;
       this.loading = false;
     }
-    
+
   });
 
 
@@ -217,10 +224,11 @@ export class SearchComponent implements OnInit {
 
   onEnteredKey(){
     this.autoCompleteLoading = true;
-    this.apiService.getSearchData(this.tickerQuery).toPromise().then(data=>{
+    this.options=[];
+    this.apiService.getSearchData(this.tickerQuery).toPromise().then((data: {result: any[]})=>{
       // console.warn();
       this.autoCompleteLoading = false;
-      this.options = data;
+      this.options = data.result;
 
       // console.log(this.companySearch);
 
