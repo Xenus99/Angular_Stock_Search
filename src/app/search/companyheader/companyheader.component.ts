@@ -27,7 +27,9 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   marketStatus: string = ' is Open';
   wallet: number;
   myQuantity;
+  stockModel: any;
   isFav: boolean = false;
+  portfolioData;
   watchList;
 
   title = 'Company Data';
@@ -78,6 +80,21 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
     this.globalVars.getQuoteDataMessage.subscribe(msg => this.companyQuote = msg);
     this.companyQuote = this.globalVars.getQuoteData();
 
+    this.mongoDbService.getPortfoliolist().toPromise().then(data => {
+      this.portfolioData = data[0];
+      console.log(this.portfolioData)
+      let stocks = this.portfolioData.shares.filter(x => x.ticker==this.companySummary.ticker);
+      console.log(stocks)
+      let stock =
+        {"ticker": this.companySummary.ticker,
+        "quantity": 0, "name": this.companySummary.name, "avgCostPerShare": 0, "current_price": 0};
+      if(stocks.length>0){
+        stock = stocks[0];
+      }
+      stock.current_price = this.companyQuote.c;
+      this.stockModel = stock;
+    });
+
     let time = new Date(this.companyQuote.t * 1000);
     this.formattedTime = time.getFullYear()+'-'+time.getMonth()+'-'+time.getDate()+' '+time.getHours()+':'+'0'+time.getMinutes()+':'+'0'+time.getSeconds();
 
@@ -86,9 +103,8 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
     }
 
     this.mongoDbService.getWatchlist().toPromise().then(data => {
-      let fav: any;
       this.watchList = data;
-      fav = fav.filter(x => x.ticker==this.companySummary.ticker);
+      let fav = this.watchList.filter(x => x.ticker==this.companySummary.ticker);
       if(fav.length == 0){
         this.isFav ==  false;
       }
@@ -104,13 +120,13 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
 	openBuyModal(companyQuote) {
 		const modalRef = this.modalService.open(CompanyBuyModalComponentComponent);
 		modalRef.componentInstance.name = 'Company Buy Modal';
-    modalRef.componentInstance.buyModalData = [this.wallet, companyQuote];
+    modalRef.componentInstance.portfolioData = [this.portfolioData, this.stockModel];
 	}
 
   openSellModal(companyQuote) {
     const modalRef = this.modalService.open(CompanySellModalComponent);
 		modalRef.componentInstance.name = 'Company Sell Modal';
-    modalRef.componentInstance.buyModalData = [this.wallet, companyQuote, this.myQuantity];
+    modalRef.componentInstance.portfolioData = [this.portfolioData, this.stockModel];
 	}
 
   updateQuotes(){

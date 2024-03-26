@@ -30,10 +30,9 @@ export class PortfolioSellModalComponent {
   constructor(private globalVars: GlobalVarsService, private mongoDbServices: MongoDbService) { }
 
   ngOnInit(){
-
-    this.currentPrice = this.portfolioData[1].currentPrice;
+    this.currentPrice = this.portfolioData[1].current_price;
     this.myQuantity = this.portfolioData[1].quantity;
-    this.wallet = this.portfolioData[0];
+    this.wallet = this.portfolioData[0].balance;
     this.totalSell = (this.quantity * this.currentPrice).toFixed(2);
     this.totalSellable = this.myQuantity;
     this.notSellable = (this.quantity > this.myQuantity) ? true : false ;
@@ -49,22 +48,16 @@ export class PortfolioSellModalComponent {
   }
 
   sellStock(){
-
-    if(this.quantity == this.portfolioData[1].quantity){
-      this.mongoDbServices.deleteFromPortfoliolist(this.portfolioData[1].ticker).toPromise().then(data =>{
-        this.globalVars.setWallet(this.wallet);
-      });
+    let newQuantity =  this.portfolioData[1].quantity - this.quantity;
+    let avg = ((this.portfolioData[1].quantity * this.portfolioData[1].avgCostPerShare) - (this.quantity * this.currentPrice))/newQuantity;
+    this.portfolioData[1].quantity = newQuantity;
+    this.portfolioData[1].avgCostPerShare = avg;
+    this.portfolioData[0].balance = this.wallet + (this.quantity * this.currentPrice);
+    if(this.portfolioData[1].quantity == 0){
+      this.portfolioData[0].shares = this.portfolioData[0].shares.filter(stock => stock.ticker !== this.portfolioData[1].ticker);
     }
-    else{
-      this.mongoDbServices.updateToPortfoliolist({
-        quantity: this.portfolioData[1].quantity,
-        avgCostPerShare:  this.portfolioData[1].avgCostPerShare,
-        ticker: this.portfolioData[1].ticker}).toPromise().then(data =>{
-        this.globalVars.setWallet(this.wallet);
-      });
-    }
-
-
+    console.log(this.portfolioData[0])
+    this.mongoDbServices.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }

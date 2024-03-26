@@ -56,13 +56,14 @@ export class CompanysummaryComponent {
 
 
   alignChartData(){
-    for(let obj of this.companySummaryChart.results){
-        this.data.push(Number(obj.c));
-        let  dateObj = new Date(obj.t * 1000);
-        this.hourData.push(Number(dateObj.getHours()));
-
-        // console.log(obj.c);
-    }
+    // for(let obj of this.companySummaryChart.results){
+    //     this.data.push(Number(obj.c));
+    //     let  dateObj = new Date(obj.t * 1000);
+    //     this.hourData.push(Number(dateObj.getHours()));
+    //
+    //     // console.log(obj.c);
+    // }
+    this.data = this.companySummaryChart.results.map((obj: any) => [obj.t, obj.c]);
 
   }
 
@@ -99,11 +100,15 @@ export class CompanysummaryComponent {
                 }
             }
         },
+      legend:{ enabled:false},
         series: [{
             name: '',
             type: 'line',
             data: this.data,
-            color: (this.companyQuote.d>=0) ? 'green' : 'red'
+            color: (this.companyQuote.d>=0) ? 'green' : 'red',
+          tooltip: {
+            valueDecimals: 2
+          }
         }],
         responsive: {
             rules: [{

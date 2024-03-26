@@ -9,7 +9,7 @@ import { MongoDbService } from '../../../mongo-db.service';
 })
 export class CompanyBuyModalComponentComponent {
 	activeModal = inject(NgbActiveModal);
-  @Input () buyModalData;
+  @Input () portfolioData;
 
   currentPrice;
   wallet;
@@ -23,8 +23,8 @@ export class CompanyBuyModalComponentComponent {
   ngOnInit(){
 
     // console.log(this.buyModalData);
-    this.currentPrice = this.buyModalData[1].c;
-    this.wallet = this.buyModalData[0];
+    this.currentPrice = this.portfolioData[1].current_price;
+    this.wallet = this.portfolioData[0].balance;
     this.totalBuy = (this.quantity * this.currentPrice).toFixed(2);
     this.totalBuyable = Math.floor(this.wallet / this.currentPrice);
     this.notBuyable = (this.totalBuy > this.wallet) ? true : false ;
@@ -40,24 +40,15 @@ export class CompanyBuyModalComponentComponent {
   }
 
   buyStock(){
-
-    this.mongoDbService.getPortfoliolist().toPromise().then(data => {
-      let portfolio: any = data;
-      let owned = portfolio.filter(x => x.ticker == this.buyModalData.ticker);
-      if(owned.length == 0){
-        this.mongoDbService.addToPortfoliolist({ticker: this.buyModalData[1].ticker, name: this.buyModalData[1].name, quantity: this.buyModalData[1].quantity, avgPricePerShare: this.buyModalData[1].currentPrice})
-      }
-      else{
-        let newQuantity = this.quantity + this.buyModalData[1].quantity;
-        let avg = ((this.quantity * this.currentPrice) + (this.buyModalData[1].quantity * this.buyModalData[1].avgCostPerShare))/newQuantity;
-        this.mongoDbService.updateToPortfoliolist({quantity: newQuantity, avgPricePerShare: avg})
-      }
-    });
-    
-
-
-
+    let newQuantity = this.quantity + this.portfolioData[1].quantity;
+    let avg = ((this.quantity * this.currentPrice) + (this.portfolioData[1].quantity * this.portfolioData[1].avgCostPerShare))/newQuantity;
+    this.portfolioData[1].quantity = newQuantity;
+    this.portfolioData[1].avgCostPerShare = avg;
+    this.portfolioData[0].balance = this.wallet - (this.quantity * this.currentPrice);
+    if(!this.portfolioData[0].shares.some((stock: any) => stock.ticker === this.portfolioData[1].ticker)){
+      this.portfolioData[0].shares.push(this.portfolioData[1]);
+    }
+    this.mongoDbService.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
     this.activeModal.close('Close click');
-    // this.soldEvent = true;
   }
 }

@@ -12,7 +12,7 @@ export class CompanySellModalComponent {
 
 
   activeModal = inject(NgbActiveModal);
-  @Input() buyModalData;
+  @Input() portfolioData;
 
   currentPrice;
   myQuantity;
@@ -31,9 +31,9 @@ export class CompanySellModalComponent {
 
   ngOnInit(){
 
-    this.wallet = this.buyModalData[0];
-    this.currentPrice = this.buyModalData[1].c;
-    this.myQuantity = this.buyModalData[2];
+    this.currentPrice = this.portfolioData[1].current_price;
+    this.myQuantity = this.portfolioData[1].quantity;
+    this.wallet = this.portfolioData[0].balance;
     this.totalSell = (this.quantity * this.currentPrice).toFixed(2);
     this.totalSellable = this.myQuantity;
     this.notSellable = (this.quantity > this.myQuantity) ? true : false ;
@@ -44,24 +44,21 @@ export class CompanySellModalComponent {
 
     this.totalSell = (this.quantity * this.currentPrice).toFixed(2);
     this.totalSellable = this.myQuantity;
-    this.notSellable = (this.quantity > this.myQuantity) ? true : false ;   
+    this.notSellable = (this.quantity > this.myQuantity) ? true : false ;
 
   }
 
   sellStock(){
-
-    if(this.quantity == this.buyModalData[1].quantity){
-      this.mongoDbServices.deleteFromPortfoliolist(this.buyModalData[1].ticker).toPromise().then(data =>{
-        this.globalVars.setWallet(this.wallet);
-      });
+    let newQuantity =  this.portfolioData[1].quantity - this.quantity;
+    let avg = ((this.portfolioData[1].quantity * this.portfolioData[1].avgCostPerShare) - (this.quantity * this.currentPrice))/newQuantity;
+    this.portfolioData[1].quantity = newQuantity;
+    this.portfolioData[1].avgCostPerShare = avg;
+    this.portfolioData[0].balance = this.wallet + (this.quantity * this.currentPrice);
+    if(this.portfolioData[1].quantity == 0){
+      this.portfolioData[0].shares = this.portfolioData[0].shares.filter(stock => stock.ticker !== this.portfolioData[1].ticker);
     }
-    else{
-      let newQuantity = this.buyModalData[1].quantity - this.quantity;
-      this.mongoDbServices.updateToPortfoliolist({ quantity: newQuantity, avgCostPerShare:  this.buyModalData[1].avgCostPerShare }).toPromise().then(data =>{
-        this.globalVars.setWallet(this.wallet);
-      });
-    }
-
+    console.log(this.portfolioData[0])
+    this.mongoDbServices.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }

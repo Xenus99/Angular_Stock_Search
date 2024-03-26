@@ -42,10 +42,16 @@ export class MongoDbService {
 
   // Update Portfolio Function
   updateToPortfoliolist(portfolioData){
-    let stock = {avgCostPerShare: '', quantity: ''}
-    stock.avgCostPerShare = portfolioData.avgCostPerShare
-    stock.quantity = portfolioData.quantity
-    return this.http.put('http://localhost:3000/DB/Angular_Stock_Search/Portfolio_Data?ticker='+portfolioData.ticker, {'$set': stock});
+    let stock = {balance: '', shares: []}
+    stock.balance = portfolioData.balance
+    stock.shares = portfolioData.shares
+    console.log("Stock: ", stock);
+    console.log("portfolioData: ", portfolioData);
+    let url = 'http://localhost:3000/DB/Angular_Stock_Search/Portfolio_Data?user_id='+portfolioData.user_id;
+    console.log("URL: ", url);
+    let body = {"$set": stock};
+    console.log("Body: ", body);
+    return this.http.put(url, body);
   }
 
   //  Delete from Portfolio Function

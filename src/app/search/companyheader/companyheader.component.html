@@ -16,7 +16,7 @@
         <h4 class="fs-4 text-muted" style="display:inline;">{{ companySummary.name }}</h4><br>
         <p><small>{{ companySummary.exchange }}</small></p>
         <button class="btn btn-success mx-1" (click)="openBuyModal(companyQuote)">Buy</button>
-        <button class="btn btn-danger mx-1" (click)="openSellModal(companyQuote)">Sell</button>
+        <button *ngIf="stockModel && stockModel.quantity" class="btn btn-danger mx-1" (click)="openSellModal(companyQuote)">Sell</button>
 
     </div>
 

@@ -25,8 +25,8 @@ export class PortfolioBuyModalComponent {
 
   ngOnInit(){
 
-    this.currentPrice = this.portfolioData[1].currentPrice;
-    this.wallet = this.portfolioData[0];
+    this.currentPrice = this.portfolioData[1].current_price;
+    this.wallet = this.portfolioData[0].balance;
     this.totalBuy = (this.quantity * this.currentPrice).toFixed(2);
     this.totalBuyable = Math.floor(this.wallet / this.currentPrice);
     this.notBuyable = (this.totalBuy > this.wallet) ? true : false ;
@@ -37,16 +37,17 @@ export class PortfolioBuyModalComponent {
 
     this.totalBuy = (this.quantity * this.currentPrice).toFixed(2);
     this.totalBuyable = Math.floor(this.wallet / this.currentPrice);
-    this.notBuyable = (this.totalBuy > this.wallet) ? true : false ;
+    this.notBuyable = (this.totalBuy > this.wallet) ;
 
   }
 
   buyStock(){
     let newQuantity = this.quantity + this.portfolioData[1].quantity;
     let avg = ((this.quantity * this.currentPrice) + (this.portfolioData[1].quantity * this.portfolioData[1].avgCostPerShare))/newQuantity;
-    let portfolioData = {ticker: this.portfolioData[1].ticker, name: this.portfolioData[1].name, avgCostPerShare: avg, quantity: newQuantity}
-    console.log(portfolioData)
-    this.mongoDbService.updateToPortfoliolist(portfolioData).toPromise().then(data =>{console.log(data)});
+    this.portfolioData[1].quantity = newQuantity;
+    this.portfolioData[1].avgCostPerShare = avg;
+    this.portfolioData[0].balance = this.wallet - (this.quantity * this.currentPrice);
+    this.mongoDbService.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }

@@ -2,7 +2,7 @@
 <div class="d-flex justify-content-center">
 
         <div class="col-sm-8">
-            
+
             <!-- <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                 AAPL bought successfully.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -14,15 +14,15 @@
             </div> -->
 
             <h4 class="my-2 mx-0 fs-4">My Portfolio</h4>
-            <div *ngIf="myStockList.length == 0" class="alert alert-warning show text-center" role="alert">
+            <div *ngIf="this.portfolioData && this.portfolioData.shares.length == 0" class="alert alert-warning show text-center" role="alert">
                 Currently you don't have any stock.
             </div>
 
-            <h5 class="fs-5">Money in Wallet: ${{ wallet }}</h5>
+            <h5 class="fs-5">Money in Wallet: ${{ this.portfolioData.balance }}</h5>
             <div class="watches">
 
 
-                <div class="card my-3" *ngFor="let myStock of myStockList">
+                <div class="card my-3" *ngFor="let myStock of this.portfolioData.shares">
                     <div class="card-header p-2">
                         <h5 class="fs-5 px-1" style="display: inline">{{ myStock.ticker }}</h5>
                         <h6 class="fs-6 text-muted" style="display: inline">{{ myStock.name }}</h6>
@@ -54,8 +54,8 @@
 
                                 <div [class]="(myStock.change == 0) ? 'col-sm-4 text-dark' : ((myStock.change > 0) ? 'col-sm-4 text-success' : 'col-sm-4 text-danger')">
                                     <h6 class="fs-6">{{ (myStock.change).toFixed(2) }}</h6>
-                                    <h6 class="fs-6">{{ myStock.currentPrice }}</h6>
-                                    <h6 class="fs-6">{{ (myStock.marketValue).toFixed(2) }}</h6>
+                                    <h6 class="fs-6">{{ myStock.current_price }}</h6>
+                                    <h6 class="fs-6">{{ myStock.marketValue }}</h6>
                                 </div>
                             </div>
 
@@ -66,7 +66,7 @@
                         <button class="btn btn-primary btn-sm" (click)="openBuyModal(myStock)">Buy</button>
                         <button class="btn btn-danger btn-sm mx-2" (click)="openSellModal(myStock)">Sell</button>
                     </div>
-                    
+
                 </div>
 
             </div>

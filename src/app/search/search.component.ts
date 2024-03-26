@@ -189,8 +189,8 @@ export class SearchComponent implements OnInit {
 
     b= this.mongoDbService.getPortfoliolist().toPromise().then(data =>{
       let wallet: any = data;
-      wallet = wallet.filter(x => x.wallet)
-      wallet = wallet[0].wallet;
+      wallet = wallet.filter(x => x.balance)
+      wallet = wallet[0].balance;
       this.globalVars.setWallet(wallet);
     });
     a.push(b);
