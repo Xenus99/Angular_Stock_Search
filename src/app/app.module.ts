@@ -64,7 +64,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
     FontAwesomeModule,
     MatAutocompleteModule,
     MatProgressSpinner,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     provideAnimationsAsync()

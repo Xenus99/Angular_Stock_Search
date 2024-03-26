@@ -10,7 +10,9 @@
                     <input type="text" class="form-control border-0 bg-transparent shadow-none fs-6" placeholder="Enter Stock Ticker Symbol" id="search" autocomplete="off" [(ngModel)]="tickerQuery" placeholder="Enter Stock Ticker Symbol" name="search" matInput [formControl]="myControl" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option  *ngIf="autoCompleteLoading"><mat-spinner diameter="30"></mat-spinner></mat-option>
+                            <div *ngIf="options">
                             <mat-option  *ngFor="let option of options" [value]="option.symbol"><a class="text-black text-decoration-none" [routerLink]="['/', 'search', option.symbol]">{{option.symbol}} | {{option.description}}</a></mat-option>
+                            </div>
                         </mat-autocomplete>
                     <button class="btn bg-transparent" [routerLink]="['/search', tickerQuery]" (click)="onSubmit()"><i class="bi bi-search" style="color:#2824ac"></i></button>
                     <button type="reset" class="btn btn-transparent"><i class="bi bi-x-lg" style="color:#18148d" (click)="onClear()"></i></button>

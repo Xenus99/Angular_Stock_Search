@@ -5,8 +5,6 @@ import { GlobalVarsService } from '../../../../global-vars.service';
 import { Router } from '@angular/router';
 
 
-
-
 //Summary Component
 @Component({
   selector: 'app-companysummary',
@@ -15,7 +13,7 @@ import { Router } from '@angular/router';
 })
 
 export class CompanysummaryComponent {
-  
+
   title = 'Company Summary';
   companySummary: any;
   companyPeers: any;
@@ -29,7 +27,7 @@ export class CompanysummaryComponent {
   data = [];
   hourData = [];
 
-  
+
   constructor(private apiService : ApiServiceService, private globalVars : GlobalVarsService, private router: Router) { }
 
   ngOnInit(){
@@ -78,15 +76,14 @@ export class CompanysummaryComponent {
                 fontSize: '15px' // Change the size of the title here
             }
         },
-        xAxis: {
-            // categories: ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
-            categories: this.hourData
-        },
         yAxis: {
             title: {
                 text: 'Price' // Change the label of the y-axis here
             }
         },
+      xAxis: {
+        type: 'datetime',
+      },
         plotOptions: {
             series: {
                 label: {

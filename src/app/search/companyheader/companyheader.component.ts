@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import {Component, Input, OnInit, inject, OnDestroy} from '@angular/core';
 import { GlobalVarsService } from '../../global-vars.service';
 import{ ApiServiceService } from '../../api-service.service';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompanyBuyModalComponentComponent } from './company-buy-modal-component/company-buy-modal-component.component';
 import { CompanySellModalComponent } from './company-sell-modal/company-sell-modal.component';
 import { MongoDbService } from '../../mongo-db.service';
+import {interval} from "rxjs";
 
 
 
@@ -15,9 +16,10 @@ import { MongoDbService } from '../../mongo-db.service';
   styleUrl: './companyheader.component.css'
 })
 
-export class CompanyheaderComponent implements OnInit{
+export class CompanyheaderComponent implements OnInit, OnDestroy{
 
   route: ActivatedRoute = inject(ActivatedRoute);
+  QuoteSub: any;
   tickerQuery: string;
   companySummary: any;
   companyQuote: any;
@@ -27,7 +29,7 @@ export class CompanyheaderComponent implements OnInit{
   myQuantity;
   isFav: boolean = false;
   watchList;
-  
+
   title = 'Company Data';
 
   // Modal Declaration
@@ -39,16 +41,35 @@ export class CompanyheaderComponent implements OnInit{
   ngOnInit(){
 
     let currentTime = new Date();
-    
+
     // Get wallet and quantity for this ticker
     this.globalVars.getWalletMessage.subscribe(msg => this.wallet = msg);
     this.wallet = this.globalVars.getWallet();
 
 
     // Get Ticker
-    this.globalVars.getTickerMessage.subscribe(msg => this.tickerQuery = msg);
-    this.companySummary = this.globalVars.getTicker();
-    
+    this.globalVars.getTickerMessage.subscribe(msg => {
+      this.tickerQuery = msg;
+      if(this.tickerQuery){
+        console.log("Ticker Query: ", this.tickerQuery);
+        if(this.QuoteSub){  this.QuoteSub.unsubscribe();}
+        this.QuoteSub = interval(15000).subscribe(() =>
+          {
+            this.apiService.getQuoteData(this.tickerQuery).toPromise().then(data =>{
+              this.companyQuote = data;
+              this.globalVars.setQuoteData(this.companyQuote);
+            });
+            let currentTime = new Date();
+            if(Number(currentTime.getHours()) < 6 ||  Number(currentTime.getHours()) > 13){
+              this.marketStatus = " Closed on "+ this.formattedTime;
+            }
+          }
+        )
+      }
+
+    });
+    this.tickerQuery = this.globalVars.getTicker();
+
     // Get Stock from Global Var
     this.globalVars.getStockDataMessage.subscribe(msg => this.companySummary = msg);
     this.companySummary = this.globalVars.getStockData();
@@ -77,8 +98,6 @@ export class CompanyheaderComponent implements OnInit{
     });
 
 
-    setInterval(this.updateQuotes, 15000);
-    
   }
 
 
@@ -127,8 +146,12 @@ export class CompanyheaderComponent implements OnInit{
       this.mongoDbService.deleteFromWatchlist(this.companySummary.ticker).toPromise();
     }
 
-  
+
   }
-  
+
+  ngOnDestroy(){
+    this.QuoteSub.unsubscribe();
+  }
+
 
 }

@@ -42,12 +42,11 @@ export class PortfolioBuyModalComponent {
   }
 
   buyStock(){
-    
     let newQuantity = this.quantity + this.portfolioData[1].quantity;
     let avg = ((this.quantity * this.currentPrice) + (this.portfolioData[1].quantity * this.portfolioData[1].avgCostPerShare))/newQuantity;
-    this.mongoDbService.updateToPortfoliolist({quantity: newQuantity, avgPricePerShare: avg})
-
-
+    let portfolioData = {ticker: this.portfolioData[1].ticker, name: this.portfolioData[1].name, avgCostPerShare: avg, quantity: newQuantity}
+    console.log(portfolioData)
+    this.mongoDbService.updateToPortfoliolist(portfolioData).toPromise().then(data =>{console.log(data)});
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }

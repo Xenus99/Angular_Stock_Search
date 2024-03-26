@@ -3,7 +3,7 @@
     <br/>
     <p class="modal-title">{{ formattedData }}</p>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
-    
+
 </div>
 <div class="modal-body">
     <h4><b>{{ newsData.headline }}</b></h4>
@@ -11,9 +11,19 @@
     <p class="text-muted" style="display: inline-block">For more details click </p><a [href]="newsData.url" target="_blank"> here</a>
 
 </div>
-
-<!-- <div class="modal-footer">
-    Total: $ 
-    <button type="button" class="btn btn-success" (click)="activeModal.close('Close click')">Buy</button>
-    <button type="button" class="btn btn-success" (click)="modal.dismiss('cancel click')">Buy</button>
-</div> -->
+<div class="modal-footer border-start border-end border-bottom m-4">
+  <div class="container border-2 border-black">
+    Share<br>
+    <div class="btn-group pt-3" role="group" aria-label="Basic example">
+      <a class="twitter-share-button" href="{{'https://twitter.com/intent/tweet?text='+this.newsData.headline +' '+ this.newsData.url}}" data-size="large">
+        <button type="button" class="btn p-0" ><fa-icon class="h3" [icon]="twiticon"></fa-icon></button></a>
+      <a class="fb-share-button" data-layout="" data-size="">
+        <a target="_blank" href="{{'https://www.facebook.com/sharer/sharer.php?u='+this.newsData.image}}" class="fb-xfbml-parse-ignore">
+          <button type="button" class="btn p-0">
+            <fa-icon class="h3" [icon]="fbicon" style="color: #18148d"></fa-icon>
+          </button>
+        </a>
+      </a>
+    </div>
+  </div>
+</div>

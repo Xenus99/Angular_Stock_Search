@@ -71,15 +71,15 @@ export class CompanychartsComponent {
             rangeSelector: {
                 selected: 2
             },
-        
+
             title: {
                 text: this.companyCharts.ticker + ' Historical'
             },
-        
+
             subtitle: {
                 text: 'With SMA and Volume by Price technical indicators'
             },
-        
+
             yAxis: [{
                 startOnTick: false,
                 endOnTick: false,
@@ -110,11 +110,14 @@ export class CompanychartsComponent {
                 lineWidth: 2,
                 opposite: true
             }],
-        
+            xAxis:{
+                type: 'datetime'
+            },
+
             tooltip: {
                 split: true
             },
-        
+
             plotOptions: {
                 series: {
                     dataGrouping: {
@@ -122,11 +125,11 @@ export class CompanychartsComponent {
                     }
                 }
             },
-        
+
             legend: {
                 enabled: false // Disable legend
             },
-        
+
             series: [{
                 type: 'candlestick',
                 name: this.companyCharts.ticker,
@@ -160,12 +163,12 @@ export class CompanychartsComponent {
                 }
             }]
         };
-                
+
     }
 
     // create the chart
-    
-    
-  
-  
+
+
+
+
 }

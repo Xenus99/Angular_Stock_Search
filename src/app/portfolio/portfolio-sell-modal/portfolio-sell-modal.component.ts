@@ -44,7 +44,7 @@ export class PortfolioSellModalComponent {
 
     this.totalSell = (this.quantity * this.currentPrice).toFixed(2);
     this.totalSellable = this.myQuantity;
-    this.notSellable = (this.quantity > this.myQuantity) ? true : false ;   
+    this.notSellable = (this.quantity > this.myQuantity) ? true : false ;
 
   }
 
@@ -56,7 +56,10 @@ export class PortfolioSellModalComponent {
       });
     }
     else{
-      this.mongoDbServices.updateToPortfoliolist({ quantity: this.portfolioData[1].quantity, avgCostPerShare:  this.portfolioData[1].avgCostPerShare }).toPromise().then(data =>{
+      this.mongoDbServices.updateToPortfoliolist({
+        quantity: this.portfolioData[1].quantity,
+        avgCostPerShare:  this.portfolioData[1].avgCostPerShare,
+        ticker: this.portfolioData[1].ticker}).toPromise().then(data =>{
         this.globalVars.setWallet(this.wallet);
       });
     }

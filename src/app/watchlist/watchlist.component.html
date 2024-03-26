@@ -9,11 +9,11 @@
                 </div>
             <br>
 
-            <div class="border rounded my-3" *ngFor="let watch of watchList">
+            <div class="border rounded my-3" *ngFor="let watch of watchList" [routerLink]="['/' , 'search', watch.ticker]">
                 <div class="row">
                     <div class="col-sm-1"><button class="bg-white border-0" (click)="onRemoveWatch(watch.ticker)"><i class="bi bi-x"></i></button></div>
                 </div>
-                
+
                 <div class="row m-2 fw-bold">
                     <div class="col-sm-6">
                         <h4 class="fs-4">{{ watch.ticker }}</h4>

@@ -43,19 +43,27 @@ export class SearchComponent implements OnInit {
      private route: ActivatedRoute,
      private router: Router
      ) {
+    this.route.params.subscribe(params => {
+      this.tickerQuery = params['ticker'];
+      if (this.tickerQuery){
+        this.options = [];
+        this.onSubmit();
+      }
+
+    });
     // console.log(this.tickerQuery);
 
   }
 
 
   ngOnInit(): void{
-    this.tickerQuery = this.route.snapshot.params['ticker'];
-    if (this.tickerQuery != "home"){
-      this.onSubmit();
-    }
-    else{
-      this.tickerQuery = "";
-    }
+    // this.tickerQuery = this.route.snapshot.params['ticker'];
+    // if (this.tickerQuery != "home"){
+    //   this.onSubmit();
+    // }
+    // else{
+    //   this.tickerQuery = "";
+    // }
     this.myControl.valueChanges.subscribe(value => {
       if (value) {
         this.tickerQuery = value;
@@ -69,7 +77,9 @@ export class SearchComponent implements OnInit {
   onSubmit(){
     this.loading = true;
     this.spinner = true;
+    this.options = [];
     this.tickerQuery =  this.tickerQuery.toUpperCase();
+    this.globalVars.setTicker(this.tickerQuery);
     let a =[]
 
     // this.globalVars.getTickerMessage.subscribe(msg => this.tickerQuery = msg);
