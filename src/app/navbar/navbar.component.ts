@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { GlobalVarsService } from '../global-vars.service';
 
 
 @Component({
@@ -9,7 +10,14 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
 
-  constructor(private router: Router) {}
+  ticker: string = 'home';
+
+  constructor(private router: Router, private globalVars: GlobalVarsService) { }
+
+  ngOnInit(){
+    
+    this.ticker = this.globalVars.getTicker();
+  }
 
 
   isActive(route: string): boolean {

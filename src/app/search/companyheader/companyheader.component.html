@@ -1,12 +1,22 @@
-<!-- <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
-    AAPL added to Watchlist.
+<div class="alert alert-success alert-dismissible fade show mt-3" *ngIf="bought" role="alert">
+    {{ companySummary.ticker }} bought successfully.
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div> -->
+</div>
 
-<!-- <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-    AAPL bought successfully.
+<div class="alert alert-danger alert-dismissible fade show mt-3" *ngIf="sold" role="alert">
+    {{ companySummary.ticker }} sold successfully.
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div> -->
+</div>
+
+<div class="alert alert-success alert-dismissible fade show mt-3" *ngIf="fav" role="alert">
+    {{ companySummary.ticker }} added to watchlist.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show mt-3" *ngIf="unfav" role="alert">
+    {{ companySummary.ticker }} removed from watchlist.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 
 
 <div class="row mx-0">

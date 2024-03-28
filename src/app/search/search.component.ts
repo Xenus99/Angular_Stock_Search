@@ -82,11 +82,7 @@ export class SearchComponent implements OnInit {
 
     let savedTicker = this.globalVars.getTicker();
 
-    if(savedTicker != '' && savedTicker == this.tickerQuery){
-      
-    }
-
-    
+    // if(savedTicker != this.tickerQuery){
 
     this.globalVars.setTicker(this.tickerQuery);
     let a =[]
@@ -219,6 +215,17 @@ export class SearchComponent implements OnInit {
     }
 
   });
+
+// }
+
+// else{
+//   this.tickerFound = true;
+//   this.loading = false;
+//   this.spinner = false;
+
+
+
+// }
 
 
 

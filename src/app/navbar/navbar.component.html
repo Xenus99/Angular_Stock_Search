@@ -7,7 +7,7 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a routerLink="/search" class="btn navbar-btn btn-sm rounded-3 text-white mx-2 py-1 my-1" aria-current="page" href="#" [class.border-white]="isActive('/search')" style="background-color: #18148d">Search</a>
+        <a [routerLink]="'/search/'+ticker" class="btn navbar-btn btn-sm rounded-3 text-white mx-2 py-1 my-1" aria-current="page" href="#" [class.border-white]="isActive('/search')" style="background-color: #18148d">Search</a>
         <a routerLink="/watchlist" class="btn navbar-btn btn-sm rounded-3 text-white mx-2 py-1 my-1" href="#" [class.border-white]="isActive('/watchlist')" style="background-color: #18148d">Watchlist</a>
         <a routerLink="/portfolio" class="btn navbar-btn btn-sm rounded-3 text-white mx-2 py-1 my-1" href="#" [class.border-white]="isActive('/portfolio')" style="background-color: #18148d">Portfolio</a>
       </div>

@@ -32,6 +32,10 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   isFav: boolean = false;
   portfolioData;
   watchList;
+  bought: boolean = false;
+  sold: boolean = false;
+  fav: boolean = false;
+  unfav: boolean = false;
 
   title = 'Company Data';
 
@@ -43,6 +47,10 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
 
   ngOnInit(){
 
+    this.fav = false;
+    this.unfav = false;
+    this.bought = false;
+    this.sold = false;
     let currentTime = new Date();
     this.formattedCurrentTime = currentTime.getFullYear()+'-'+Number(currentTime.getMonth()+1)+'-'+currentTime.getDate()+' '+currentTime.getHours()+':'+currentTime.getMinutes()+':'+currentTime.getSeconds()
 
@@ -119,6 +127,15 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
 
     });
 
+    //Buy and Sell Alerts
+    this.globalVars.alertBuy$.subscribe(message => {
+      this.bought = true;
+      });
+  
+      this.globalVars.alertSell$.subscribe(message => {
+      this.sold = true;
+      });
+
 
   }
 
@@ -160,11 +177,13 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   onFavClick(){
 
     if(this.isFav == false){
+      this.fav = true;
       this.isFav = true;
       this.mongoDbService.addToWatchlist(this.companySummary).toPromise();
     }
 
     else{
+      this.unfav = true;
       this.isFav = false;
       this.mongoDbService.deleteFromWatchlist(this.companySummary.ticker).toPromise();
     }

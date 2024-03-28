@@ -21,11 +21,7 @@ export class CompanySellModalComponent {
   totalSellable: number;
   quantity: number = 1;
   totalSell;
-  // boughtEvent: boolean = false;
-  // soldEvent: boolean = false;
 
-
-	// @Input() name: string;
 
   constructor(private globalVars: GlobalVarsService, private mongoDbServices: MongoDbService) { }
 
@@ -59,6 +55,7 @@ export class CompanySellModalComponent {
     }
     console.log(this.portfolioData[0])
     this.mongoDbServices.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
+    this.globalVars.showSellAlert('Stock sold successfully!');
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }
