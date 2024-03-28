@@ -5,7 +5,7 @@
 
     <div class="container mb-3">
         <form class="d-flex justify-content-center">
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-xs-10">
                 <div class="input-group border border-primary border-4 rounded-5">
                     <input type="text" class="form-control border-0 bg-transparent shadow-none fs-6" placeholder="Enter Stock Ticker Symbol" id="search" autocomplete="off" [(ngModel)]="tickerQuery" placeholder="Enter Stock Ticker Symbol" name="search" matInput [formControl]="myControl" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
@@ -29,9 +29,9 @@
 
 
     <!-- <div class="row"> -->
-        <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center">
 
-        <div class="col-sm-8">
+        <div class="col-sm-8 col-xs-8">
 
             <div *ngIf="!tickerFound" class="alert alert-danger show mt-3" role="alert">
                 No data found. Please enter a valid Ticker.
@@ -42,8 +42,12 @@
 
         </div>
 
-
-        </div>
+    </div>
     <!-- </div> -->
 
+    <div class="row mx-0">
+        <app-companydata *ngIf="!loading"></app-companydata>
+    </div>
+
+        
 </div>

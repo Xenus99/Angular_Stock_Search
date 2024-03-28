@@ -12,10 +12,12 @@ export class WatchlistComponent {
   public watchList = [];
   companyQuote;
   mongoList: any;
+  spinner: boolean = true;
 
   constructor(private apiService: ApiServiceService, private mongoDbService: MongoDbService) {}
 
   ngOnInit(){
+    this.spinner = true;
 
     let a=[];
     let count = 0;
@@ -37,14 +39,17 @@ export class WatchlistComponent {
           this.watchList[count].price = this.companyQuote.c;
           this.watchList[count].change = this.companyQuote.d;
           this.watchList[count].changePercent = (this.companyQuote.dp).toFixed(2);
+
           count++;
   
         });
   
       a.push(b);
       }
+      this.spinner = false;
   
       Promise.all(a).then(() => {
+
   
       });
 

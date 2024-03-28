@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { MatAutocompleteModule } from  '@angular/material/autocomplete';
+
 import { AppComponent } from './app.component';
 import { ServerComponent } from './server/server.component';
 import { FooterComponent } from './footer/footer.component';
@@ -28,7 +29,7 @@ import { NewsModalComponent } from './search/companyheader/companydata/companyne
 import { PortfolioBuyModalComponent } from './portfolio/portfolio-buy-modal/portfolio-buy-modal.component';
 import { PortfolioSellModalComponent } from './portfolio/portfolio-sell-modal/portfolio-sell-modal.component';
 import { CompanySellModalComponent } from './search/companyheader/company-sell-modal/company-sell-modal.component';
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 
 @NgModule({

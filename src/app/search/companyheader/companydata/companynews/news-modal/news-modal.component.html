@@ -1,12 +1,12 @@
 <div class="modal-header">
-    <h1 class="modal-title"><b>{{ newsData.source }}</b></h1>
+    <h1 class="modal-title" style="font-weight: 500;">{{ newsData.source }}</h1>
     <br/>
     <p class="modal-title">{{ formattedData }}</p>
     <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
 
 </div>
 <div class="modal-body">
-    <h4><b>{{ newsData.headline }}</b></h4>
+    <h4 style="font-weight: 500;">{{ newsData.headline }}</h4>
     <p>{{ newsData.summary }}</p>
     <p class="text-muted" style="display: inline-block">For more details click </p><a [href]="newsData.url" target="_blank"> here</a>
 

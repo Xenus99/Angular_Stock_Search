@@ -25,7 +25,6 @@ export class PortfolioComponent {
   changeStatus = '';
   loading = false;
   mongoStockList;
-  spinner: boolean = true;
 
   // Modal Declaration
   private modalService = inject(NgbModal);
@@ -33,7 +32,7 @@ export class PortfolioComponent {
   constructor(private apiService: ApiServiceService, private mongoDbService: MongoDbService, private globalVars: GlobalVarsService) { }
 
   ngOnInit(){
-    this.spinner = true;
+
     let count = 0;
     let a = [];
 
@@ -46,13 +45,11 @@ export class PortfolioComponent {
 
   UpdateStockList(){
     this.mongoDbService.getPortfoliolist().toPromise().then(data=>{
-      
       this.portfolioData = data[0];
       this.loading = true;
       Promise.all(this.portfolioData.shares.map((share: any) => this.apiService.getQuoteData(share.ticker).toPromise())).then(
         (data: any[]) =>{
           this.portfolioData.shares.forEach((stock: any, index: number) => {
-
 
             stock.current_price = data[index].c;
             stock.change = stock.current_price - stock.avgCostPerShare;
@@ -61,7 +58,6 @@ export class PortfolioComponent {
             stock.totalShare = (stock.avgCostPerShare * stock.quantity).toFixed(2);
           });
           this.loading = false;
-          this.spinner = false;
         })});
   }
 

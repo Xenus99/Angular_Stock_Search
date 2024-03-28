@@ -24,6 +24,7 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   companySummary: any;
   companyQuote: any;
   formattedTime;
+  formattedCurrentTime;
   marketStatus: string = ' is Open';
   wallet: number;
   myQuantity;
@@ -43,6 +44,7 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   ngOnInit(){
 
     let currentTime = new Date();
+    this.formattedCurrentTime = currentTime.getFullYear()+'-'+Number(currentTime.getMonth()+1)+'-'+currentTime.getDate()+' '+currentTime.getHours()+':'+currentTime.getMinutes()+':'+currentTime.getSeconds()
 
     // Get wallet and quantity for this ticker
     this.globalVars.getWalletMessage.subscribe(msg => this.wallet = msg);
@@ -96,7 +98,7 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
     });
 
     let time = new Date(this.companyQuote.t * 1000);
-    this.formattedTime = time.getFullYear()+'-'+time.getMonth()+'-'+time.getDate()+' '+time.getHours()+':'+'0'+time.getMinutes()+':'+'0'+time.getSeconds();
+    this.formattedTime = time.getFullYear()+'-'+Number(time.getMonth()+1)+'-'+time.getDate()+' '+time.getHours()+':'+'0'+time.getMinutes()+':'+'0'+time.getSeconds();
 
     if(Number(currentTime.getHours()) < 6 ||  Number(currentTime.getHours()) > 13){
       this.marketStatus = " Closed on "+ this.formattedTime;

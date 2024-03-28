@@ -79,6 +79,11 @@ export class SearchComponent implements OnInit {
     this.spinner = true;
     this.options = [];
     this.tickerQuery =  this.tickerQuery.toUpperCase();
+
+    
+    
+    
+
     this.globalVars.setTicker(this.tickerQuery);
     let a =[]
 

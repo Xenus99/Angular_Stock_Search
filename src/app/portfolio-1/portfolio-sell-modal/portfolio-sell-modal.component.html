@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body">
     <p>Current Price: {{ currentPrice }}</p>
-    <p>Money in Wallet: ${{ (wallet).toFixed(2) }}</p>
+    <p>Money in Wallet: ${{ wallet }}</p>
     Quantity: <input type="number" min="1" [(ngModel)]="quantity" (keyup)="onKeyup($event)" (change)="onKeyup($event)"/> 
     <p class="text-danger" *ngIf="quantity > myQuantity">You cannot sell the stocks that you don't have!</p>
 </div>

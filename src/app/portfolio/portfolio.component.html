@@ -14,12 +14,20 @@
             </div> -->
 
             <h4 class="my-2 mx-0 fs-4">My Portfolio</h4>
-            <div *ngIf="this.portfolioData && this.portfolioData.shares.length == 0" class="alert alert-warning show text-center" role="alert">
+
+            <h5 class="fs-5">Money in Wallet: ${{ (this.portfolioData.balance).toFixed(2) }}</h5>
+
+            <div *ngIf="this.portfolioData && this.portfolioData.shares.length == 0 && !this.spinner" class="alert alert-warning show text-center" role="alert">
                 Currently you don't have any stock.
             </div>
 
-            <h5 class="fs-5">Money in Wallet: ${{ this.portfolioData.balance }}</h5>
+            <div class="spinner-border text-primary fs-3" style="width: 5rem; height: 5rem;" *ngIf="spinner == true" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        
+
             <div class="watches">
+            
 
 
                 <div class="card my-3" *ngFor="let myStock of this.portfolioData.shares">
@@ -32,21 +40,61 @@
                         <div class="row">
 
                             <div class="row col-sm-6">
-                                <div class="col-sm-8">
-                                    <h6 class="fs-6">Quantity:</h6>
-                                    <h6 class="fs-6">Avg Cost / Share:</h6>
-                                    <h6 class="fs-6">Total Share:</h6>
-                                </div>
+                                <!-- <div class="col-sm-8"> -->
+                                <table class="table table-borderless mx-2 my-0">
+                                    
+                                    <tr>
+                                    <td><p class="fs-6 my-0 py-1">Quantity:</p></td>
+                                    <td><p class="fs-6 my-0 py-1">{{ (myStock.quantity).toFixed(2) }}</p></td>
+                                    </tr>
 
-                                <div class="col-sm-4">
-                                    <h6 class="fs-6">{{ myStock.quantity }}.00</h6>
+                                    <tr>
+                                    <td><p class="fs-6 my-0 py-1">Avg Cost / Share:</p></td>
+                                    <td><p class="fs-6 my-0 py-1">{{ (myStock.avgCostPerShare).toFixed(2) }}</p></td>
+                                    </tr>
+
+                                    <tr>
+                                    <td><h6 class="fs-6 my-0 py-1">Total Share:</h6></td>
+                                    <td><h6 class="fs-6 my-0 py-1">{{ myStock.totalShare }}</h6></td>
+                                    </tr>
+
+                                    <!-- <h6 class="fs-6">Avg Cost / Share:</h6>
+                                    <h6 class="fs-6">Total Share:</h6> -->
+
+                                <!-- </div> -->
+
+                                <!-- <div class="col-sm-4"> -->
+                                    <!-- <h6 class="fs-6">{{ myStock.quantity }}.00</h6>
                                     <h6 class="fs-6">{{ (myStock.avgCostPerShare).toFixed(2) }}</h6>
-                                    <h6 class="fs-6">{{ myStock.totalShare }}</h6>
-                                </div>
+                                    <h6 class="fs-6">{{ myStock.totalShare }}</h6> -->
+
+                                </table>
+                                <!-- </div> -->
                             </div>
 
                             <div class="row col-sm-6">
-                                <div class="col-sm-8">
+
+                                <table class="table table-borderless mx-2 my-0">
+                                    
+                                    <tr>
+                                    <td><h6 class="fs-6 my-0 py-1">Change:</h6></td>
+                                    <td><h6 class="fs-6 my-0 py-1">{{ (myStock.change).toFixed(2) }}</h6></td>
+                                    </tr>
+
+                                    <tr>
+                                    <td><h6 class="fs-6 my-0 py-1">Current Price:</h6></td>
+                                    <td><h6 class="fs-6 my-0 py-1">{{ (myStock.current_price).toFixed(2) }}</h6></td>
+                                    </tr>
+
+                                    <tr>
+                                    <td><h6 class="fs-6 my-0 py-1">Market Value:</h6></td>
+                                    <td><h6 class="fs-6 my-0 py-1">{{ myStock.marketValue }}</h6></td>
+                                    </tr>
+
+                                </table>
+
+
+                                <!-- <div class="col-sm-8">
                                     <h6 class="fs-6">Change:</h6>
                                     <h6 class="fs-6">Current Price:</h6>
                                     <h6 class="fs-6">Market Value:</h6>
@@ -56,7 +104,7 @@
                                     <h6 class="fs-6">{{ (myStock.change).toFixed(2) }}</h6>
                                     <h6 class="fs-6">{{ myStock.current_price }}</h6>
                                     <h6 class="fs-6">{{ myStock.marketValue }}</h6>
-                                </div>
+                                </div> -->
                             </div>
 
                         </div>

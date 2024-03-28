@@ -1,0 +1,74 @@
+
+<div class="d-flex justify-content-center">
+
+        <div class="col-sm-8">
+
+            <!-- <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                AAPL bought successfully.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                AAPL sold successfully.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div> -->
+
+            <h4 class="my-2 mx-0 fs-4">My Portfolio</h4>
+            <div *ngIf="this.portfolioData && this.portfolioData.shares.length == 0" class="alert alert-warning show text-center" role="alert">
+                Currently you don't have any stock.
+            </div>
+
+            <h5 class="fs-5">Money in Wallet: ${{ this.portfolioData.balance }}</h5>
+            <div class="watches">
+
+
+                <div class="card my-3" *ngFor="let myStock of this.portfolioData.shares">
+                    <div class="card-header p-2">
+                        <h5 class="fs-5 px-1" style="display: inline">{{ myStock.ticker }}</h5>
+                        <h6 class="fs-6 text-muted" style="display: inline">{{ myStock.name }}</h6>
+                    </div>
+
+                    <div class="card-body px-2 py-3">
+                        <div class="row">
+
+                            <div class="row col-sm-6">
+                                <div class="col-sm-8">
+                                    <h6 class="fs-6">Quantity:</h6>
+                                    <h6 class="fs-6">Avg Cost / Share:</h6>
+                                    <h6 class="fs-6">Total Share:</h6>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <h6 class="fs-6">{{ myStock.quantity }}.00</h6>
+                                    <h6 class="fs-6">{{ (myStock.avgCostPerShare).toFixed(2) }}</h6>
+                                    <h6 class="fs-6">{{ myStock.totalShare }}</h6>
+                                </div>
+                            </div>
+
+                            <div class="row col-sm-6">
+                                <div class="col-sm-8">
+                                    <h6 class="fs-6">Change:</h6>
+                                    <h6 class="fs-6">Current Price:</h6>
+                                    <h6 class="fs-6">Market Value:</h6>
+                                </div>
+
+                                <div [class]="(myStock.change == 0) ? 'col-sm-4 text-dark' : ((myStock.change > 0) ? 'col-sm-4 text-success' : 'col-sm-4 text-danger')">
+                                    <h6 class="fs-6">{{ (myStock.change).toFixed(2) }}</h6>
+                                    <h6 class="fs-6">{{ myStock.current_price }}</h6>
+                                    <h6 class="fs-6">{{ myStock.marketValue }}</h6>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button class="btn btn-primary btn-sm" (click)="openBuyModal(myStock)">Buy</button>
+                        <button class="btn btn-danger btn-sm mx-2" (click)="openSellModal(myStock)">Sell</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+</div>

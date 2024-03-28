@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,13 @@ export class GlobalVarsService {
   private earningsData = new BehaviorSubject('');
   getEarningsDataMessage = this.earningsData.asObservable();
 
+  // private alertSubject = new Subject<string>();
+  // alert$ = this.alertSubject.asObservable();
+
+  // private alertSellSubject = new Subject<string>();
+  // alertSell$ = this.alertSellSubject.asObservable();
+
+
   constructor() { }
 
   //Ticker
@@ -52,6 +59,16 @@ export class GlobalVarsService {
   getTicker(){
     return this.tickerQuery.value;
   }
+
+  // //Buy Alert
+  // showAlert(message: string) {
+  //   this.alertSubject.next(message);
+  // }
+
+  // //Sell Alert
+  // showSellAlert(message: string) {
+  //   this.alertSellSubject.next(message);
+  // }
 
   //Wallet
   setWallet(message: number){
