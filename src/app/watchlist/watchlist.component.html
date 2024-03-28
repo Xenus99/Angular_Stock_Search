@@ -2,11 +2,17 @@
     <div class="col-md-6"> -->
 <div class="d-flex justify-content-center">
 
-        <div class="col-sm-8">
+        <div class="col-11 col-md-8">
             <h3 class="fs-3">My Watchlist</h3>
-                <div *ngIf="watchList.length == 0" class="alert alert-warning show text-center" role="alert">
-                    Currently you don't have any stock in your watchlist.
-                </div>
+
+            <div class="spinner-border text-primary fs-3" style="width: 5rem; height: 5rem;" *ngIf="spinner" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+
+
+            <div *ngIf="watchList.length == 0 && !spinner" class="alert alert-warning show text-center" role="alert">
+                Currently you don't have any stock in your watchlist.
+            </div>
             <br>
 
             <div class="border rounded my-3" *ngFor="let watch of watchList" [routerLink]="['/' , 'search', watch.ticker]">
@@ -14,16 +20,21 @@
                     <div class="col-sm-1"><button class="bg-white border-0" (click)="onRemoveWatch(watch.ticker)"><i class="bi bi-x"></i></button></div>
                 </div>
 
-                <div class="row m-2 fw-bold">
-                    <div class="col-sm-6">
-                        <h4 class="fs-4">{{ watch.ticker }}</h4>
-                        <h5 class="fs-5">{{ watch.name }}</h5>
-                    </div>
-                    <div [class]=" (watch.change >= 0) ? 'col-sm-6 text-success' : 'col-sm-6 text-danger'">
-                        <h4 class="fs-4">{{ watch.price }}</h4>
-                        <h5 class="fs-5">{{ watch.change }} ({{ watch.changePercent }}%)</h5>
-                    </div>
-                </div>
+                <table class="table table-borderless">
+
+                    <tbody>
+                        <tr>
+                            <td class="fs-4 px-2" style="font-weight: 500;">{{ watch.ticker }}</td>
+                            <td [ngClass]="(watch.change > 0) ? 'text-success fs-4' : (watch.change < 0) ? 'text-danger fs-4' : 'text-dark fs-4'" style="font-weight: 500;">{{ watch.price }}</td>
+                        </tr>
+                        <tr>
+                            <td class="fs-5 px-2" style="font-weight: 500;">{{ watch.name }}</td>
+                            <td [ngClass]="(watch.change > 0) ? 'text-success fs-5' : (watch.change < 0) ? 'text-danger fs-5' : 'text-dark fs-5'" style="font-weight: 500;"><i [class]="(watch.change > 0) ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill'"></i> {{ watch.change }} ({{ watch.changePercent }}%)</td>
+                        </tr>
+                    </tbody>
+                    
+                  </table>
+
                 <br>
             </div>
             <br>

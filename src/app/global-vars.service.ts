@@ -42,11 +42,11 @@ export class GlobalVarsService {
   private earningsData = new BehaviorSubject('');
   getEarningsDataMessage = this.earningsData.asObservable();
 
-  // private alertSubject = new Subject<string>();
-  // alert$ = this.alertSubject.asObservable();
+  private alertBuySubject = new Subject<string>();
+  alertBuy$ = this.alertBuySubject.asObservable();
 
-  // private alertSellSubject = new Subject<string>();
-  // alertSell$ = this.alertSellSubject.asObservable();
+  private alertSellSubject = new Subject<string>();
+  alertSell$ = this.alertSellSubject.asObservable();
 
 
   constructor() { }
@@ -60,15 +60,15 @@ export class GlobalVarsService {
     return this.tickerQuery.value;
   }
 
-  // //Buy Alert
-  // showAlert(message: string) {
-  //   this.alertSubject.next(message);
-  // }
+  //Buy Alert
+  showBuyAlert(message: string) {
+    this.alertBuySubject.next(message);
+  }
 
-  // //Sell Alert
-  // showSellAlert(message: string) {
-  //   this.alertSellSubject.next(message);
-  // }
+  //Sell Alert
+  showSellAlert(message: string) {
+    this.alertSellSubject.next(message);
+  }
 
   //Wallet
   setWallet(message: number){

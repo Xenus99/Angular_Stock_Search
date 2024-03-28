@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ApiServiceService } from '../api-service.service';
 import { MongoDbService } from '../mongo-db.service';
+import { GlobalVarsService } from '../global-vars.service';
+import {interval} from "rxjs";
+
 
 @Component({
   selector: 'app-watchlist',
@@ -13,8 +16,11 @@ export class WatchlistComponent {
   companyQuote;
   mongoList: any;
   spinner: boolean = true;
+  tickerQuery: string;
+  QuoteSub: any;
 
-  constructor(private apiService: ApiServiceService, private mongoDbService: MongoDbService) {}
+
+  constructor(private apiService: ApiServiceService, private mongoDbService: MongoDbService, private globalVars: GlobalVarsService) {}
 
   ngOnInit(){
     this.spinner = true;
@@ -50,15 +56,31 @@ export class WatchlistComponent {
   
       Promise.all(a).then(() => {
 
-  
+        this.globalVars.getTickerMessage.subscribe(msg => {
+          this.tickerQuery = msg;
+    
+          if(this.tickerQuery){
+            if(this.QuoteSub){  
+              this.QuoteSub.unsubscribe();
+            }
+            this.QuoteSub = interval(15000).subscribe(() =>
+              {
+                this.apiService.getQuoteData(this.tickerQuery).toPromise().then(data =>{
+                  this.companyQuote = data;
+                  this.globalVars.setQuoteData(this.companyQuote);
+                });
+              }
+            )
+          }
+    
+        });
+    
+
       });
 
     });
 
-
-
   }
-
 
   onRemoveWatch(ticker){
     console.log(ticker);

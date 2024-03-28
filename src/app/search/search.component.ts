@@ -80,8 +80,12 @@ export class SearchComponent implements OnInit {
     this.options = [];
     this.tickerQuery =  this.tickerQuery.toUpperCase();
 
-    
-    
+    let savedTicker = this.globalVars.getTicker();
+
+    if(savedTicker != '' && savedTicker == this.tickerQuery){
+      
+    }
+
     
 
     this.globalVars.setTicker(this.tickerQuery);
@@ -192,6 +196,7 @@ export class SearchComponent implements OnInit {
     });
     a.push(b);
 
+    // Get Wallet
     b= this.mongoDbService.getPortfoliolist().toPromise().then(data =>{
       let wallet: any = data;
       wallet = wallet.filter(x => x.balance)
@@ -202,15 +207,7 @@ export class SearchComponent implements OnInit {
 
 
     Promise.all(a).then(() => {
-    // console.log(this.globalVars.getStockData());
-    // console.log(this.globalVars.getQuoteData());
-    // console.log(this.globalVars.getChartsData());
-    // console.log(this.globalVars.getNewsData());
-    // console.log(this.globalVars.getInsiderData());
-    // console.log(this.globalVars.getEarningsData());
-    // console.log(this.globalVars.getPeersData());
-    // console.log(this.globalVars.getRecommendationData());
-    // console.log(this.globalVars.getSearchData());
+
     this.spinner = false;
 
     if(Object.keys(this.globalVars.getStockData()).length === 0){
@@ -228,9 +225,7 @@ export class SearchComponent implements OnInit {
   }
 
   onClear(){
-    this.router.navigate(['search/home']).then(() => {
-        window.location.reload();
-    });
+    this.router.navigate(['search/home'])
   }
 
   // searchQuery(tickerQuery:string) {

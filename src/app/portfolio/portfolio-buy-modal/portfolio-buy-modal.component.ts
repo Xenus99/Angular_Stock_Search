@@ -1,6 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { NgbActiveModal, NgbModal  } from '@ng-bootstrap/ng-bootstrap';
 import { MongoDbService } from '../../mongo-db.service';
+import { GlobalVarsService } from '../../global-vars.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class PortfolioBuyModalComponent {
   totalBuy;
 
 	// @Input() name: string;
-  constructor(private mongoDbService: MongoDbService) { }
+  constructor(private mongoDbService: MongoDbService, private globalVars: GlobalVarsService) { }
 
   ngOnInit(){
 
@@ -48,6 +49,7 @@ export class PortfolioBuyModalComponent {
     this.portfolioData[1].avgCostPerShare = avg;
     this.portfolioData[0].balance = this.wallet - (this.quantity * this.currentPrice);
     this.mongoDbService.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
+    this.globalVars.showBuyAlert('Stock bought successfully!');
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }

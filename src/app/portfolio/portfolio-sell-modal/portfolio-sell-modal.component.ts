@@ -58,6 +58,7 @@ export class PortfolioSellModalComponent {
     }
     console.log(this.portfolioData[0])
     this.mongoDbServices.updateToPortfoliolist(this.portfolioData[0]).toPromise().then(data =>{console.log(data)});
+    this.globalVars.showSellAlert('Stock sold successfully!');
     this.activeModal.close('Close click');
     // this.soldEvent = true;
   }

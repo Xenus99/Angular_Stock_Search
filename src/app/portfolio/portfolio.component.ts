@@ -26,6 +26,9 @@ export class PortfolioComponent {
   loading = false;
   mongoStockList;
   spinner: boolean = true;
+  bought: boolean = false;
+  sold: boolean = false;
+
 
   // Modal Declaration
   private modalService = inject(NgbModal);
@@ -36,12 +39,24 @@ export class PortfolioComponent {
     this.spinner = true;
     let count = 0;
     let a = [];
+    this.bought = false;
+    this.sold = false;
 
 
-      // Get Wallet from Global Var
-      this.globalVars.getWalletMessage.subscribe(msg => this.wallet = msg);
-      this.wallet = this.globalVars.getWallet();
-      this.UpdateStockList();
+    // Get Wallet from Global Var
+    this.globalVars.getWalletMessage.subscribe(msg => this.wallet = msg);
+    this.wallet = this.globalVars.getWallet();
+
+    //Buy and Sell Alerts
+    this.globalVars.alertBuy$.subscribe(message => {
+    this.bought = true;
+    });
+
+    this.globalVars.alertSell$.subscribe(message => {
+    this.sold = true;
+    });
+
+    this.UpdateStockList();
   }
 
   UpdateStockList(){

@@ -39,7 +39,7 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   private modalService = inject(NgbModal);
 
 
-  constructor(private  globalVars: GlobalVarsService, private apiService :ApiServiceService, private mongoDbService: MongoDbService) { }
+  constructor(private  globalVars: GlobalVarsService, private apiService: ApiServiceService, private mongoDbService: MongoDbService) { }
 
   ngOnInit(){
 
@@ -54,9 +54,11 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
     // Get Ticker
     this.globalVars.getTickerMessage.subscribe(msg => {
       this.tickerQuery = msg;
+
       if(this.tickerQuery){
-        console.log("Ticker Query: ", this.tickerQuery);
-        if(this.QuoteSub){  this.QuoteSub.unsubscribe();}
+        if(this.QuoteSub){  
+          this.QuoteSub.unsubscribe();
+        }
         this.QuoteSub = interval(15000).subscribe(() =>
           {
             this.apiService.getQuoteData(this.tickerQuery).toPromise().then(data =>{
@@ -113,6 +115,8 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
       else{
         this.isFav= true;
       }
+      // setInterval(this.updateQuotes, 5000);
+
     });
 
 
@@ -134,8 +138,9 @@ export class CompanyheaderComponent implements OnInit, OnDestroy{
   updateQuotes(){
 
     // Get Quote Data from APIs and Set Global Var
-
-    this.apiService.getQuoteData(this.tickerQuery).toPromise().then(data =>{
+    let ticker = this.globalVars.getTicker();
+    console.log(this.tickerQuery);
+    this.apiService.getQuoteData(ticker).toPromise().then(data =>{
     this.companyQuote = data;
     this.globalVars.setQuoteData(this.companyQuote);
     });
